@@ -48,7 +48,10 @@ body {
 
 #rooms selector {
     max-width: 200px;
+}
 
+#chats .chat button{
+    background-color: cyan;
 }
 
 form {

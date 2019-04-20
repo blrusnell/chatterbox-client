@@ -16,20 +16,25 @@ var FormView = {
       room: 'default'
     };
     Parse.create(msg);
-    MessagesView.$chats.empty();
-    setTimeout(Parse.readAll((data) => {
-      // examine the response from the server request:
-      for (let i = 0; i < 25; i++) {
-        MessagesView.$chats.append($(MessageView.render(data.results[i])));
-      }
-    }), 250);
+    setTimeout(FormView.reloadFeed, 500);
     event.preventDefault();
+    $('#message').val('');
     
   },
 
   setStatus: function(active) {
     var status = active ? 'true' : null;
     FormView.$form.find('input[type=submit]').attr('disabled', status);
+  },
+
+  reloadFeed: function() {
+    MessagesView.$chats.empty();
+    Parse.readAll((data) => {
+      // examine the response from the server request:
+      for (let i = 0; i < 25; i++) {
+        MessagesView.$chats.append($(MessageView.render(data.results[i])));
+      }
+    });
   }
 
 };

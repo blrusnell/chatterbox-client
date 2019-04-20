@@ -10,19 +10,29 @@ var App = {
     FormView.initialize();
     RoomsView.initialize();
     MessagesView.initialize();
+  
 
     // Fetch initial batch of messages
     App.startSpinner();
     App.fetch(App.stopSpinner);
 
+
   },
 
   fetch: function(callback = ()=>{}) {
     Parse.readAll((data) => {
-      // examine the response from the server request:
+
       console.log(data);
       console.log('this is coming from the server');
+      
+      for (let i = 0; i < 50; i ++) {
+        if (data.results[i].username && data.results[i].text) {
+          MessagesView.$chats.append($(MessageView.render(data.results[i])));
+        }
+      }
 
+      Friends.initialize();
+  
       callback();
     });
   },
